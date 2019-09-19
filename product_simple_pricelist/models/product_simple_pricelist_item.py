@@ -1,11 +1,10 @@
-# coding: utf-8
 # Copyright (C) 2015 - Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, fields, models, tools
-from openerp.exceptions import Warning as UserError
-from openerp.addons import decimal_precision as dp
+from odoo import _, api, fields, models, tools
+from odoo.exceptions import Warning as UserError
+from odoo.addons import decimal_precision as dp
 
 
 class ProductSimplePricelistItem(models.Model):
@@ -20,10 +19,6 @@ class ProductSimplePricelistItem(models.Model):
 
     pricelist_id = fields.Many2one(
         comodel_name='product.pricelist', string='Pricelist', readonly=True)
-
-    pricelist_version_id = fields.Many2one(
-        comodel_name='product.pricelist.version', string='Pricelist Version',
-        readonly=True)
 
     pricelist_item_id = fields.Many2one(
         comodel_name='product.pricelist.item', string='Pricelist Item',
@@ -110,7 +105,7 @@ class ProductSimplePricelistItem(models.Model):
             CREATE OR REPLACE VIEW %s AS (
             SELECT
                 to_char(pp.id, 'FM099999999')
-                    || to_char(pplv.id, 'FM099999999') AS id,
+                    || to_char(ppl.id, 'FM099999999') AS id,
                 pt.company_id AS company_id,
                 pt.name AS product_name,
                 pt.sale_ok AS product_sale_ok,
@@ -119,7 +114,6 @@ class ProductSimplePricelistItem(models.Model):
                 pt.list_price,
                 ppl.name,
                 ppl.id as pricelist_id,
-                pplv.id as pricelist_version_id,
                 ppli.id as pricelist_item_id,
                 ppli.price_surcharge as specific_price,
                 CASE WHEN ppli.id is null
@@ -136,11 +130,9 @@ class ProductSimplePricelistItem(models.Model):
             JOIN product_pricelist ppl
                 ON ppl.company_id = pt.company_id
                 AND ppl.is_simple = True
-            LEFT OUTER JOIN product_pricelist_version pplv
-                ON pplv.pricelist_id = ppl.id
             LEFT OUTER JOIN product_pricelist_item ppli
                 ON ppli.product_id = pp.id
-                AND ppli.price_version_id = pplv.id
+                AND ppli.price_id = ppl.id
             WHERE
                 (pp.active IS True AND pt.sale_ok IS True)
                 OR ppli.id IS NOT null
