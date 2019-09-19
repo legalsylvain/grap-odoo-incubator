@@ -14,12 +14,8 @@
         'product',
     ],
     'data': [
-        'security/ir_rule.xml',
-        'security/ir.model.access.csv',
+        'views/view_product_product.xml',
         'views/view_product_pricelist.xml',
-        'views/view_product_simple_pricelist_item.xml',
-        'views/view_product_simple_pricelist_item_update_wizard.xml',
-        'views/action.xml',
     ],
     'demo': [
         'demo/res_groups.xml',

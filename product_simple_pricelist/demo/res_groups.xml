@@ -6,11 +6,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <odoo>
 
-    <record id="base.group_sale_manager" model="res.groups">
+    <record id="product.group_sale_pricelist" model="res.groups">
         <field name="users" eval="[(4, ref('base.user_admin'))]"/>
     </record>
 
-    <record id="product.group_sale_pricelist" model="res.groups">
+    <record id="product.group_product_pricelist" model="res.groups">
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="base.group_multi_company" model="res.groups">
         <field name="users" eval="[(4, ref('base.user_admin'))]"/>
     </record>
 
