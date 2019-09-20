@@ -31,7 +31,6 @@ class ProductProduct(models.Model):
     def _compute_pricelist_price(self):
         pricelist_id = self._context.get('pricelist_id', False)
         if not pricelist_id:
-            print("PAS BIEN !!!!!")
             return
         pricelist = self.env['product.pricelist'].browse(pricelist_id)
         for product in self:
@@ -52,23 +51,17 @@ class ProductProduct(models.Model):
         pricelist = self.env['product.pricelist'].browse(pricelist_id)
 
         for product in self:
-            item = product._get_pricelist_item_by_pricelist(
-                pricelist)
+            item = product._get_pricelist_item_by_pricelist(pricelist)
             if product.pricelist_price == product.lst_price:
                 # Delete item if it exist, because it is unecessary
-                print("- same price")
                 if item:
-                    print("- unlink")
                     item.unlink()
             else:
-                print("- different price")
                 if item:
-                    print("- update item")
                     # Update price if item exist
                     item.fixed_price = product.pricelist_price
                 else:
                     # Create a new item
-                    print("- create item")
                     ProductPricelistItem.create({
                         'pricelist_id': pricelist.id,
                         'applied_on': '0_product_variant',
@@ -78,5 +71,12 @@ class ProductProduct(models.Model):
                     })
 
     def delete_pricelist_price(self):
+        pricelist_id = self._context.get('pricelist_id', False)
+        if not pricelist_id:
+            raise UserError(_(
+                "Unabled to set Pricelist Price if pricelist is not defined"))
+        pricelist = self.env['product.pricelist'].browse(pricelist_id)
         for product in self:
-            product.lst_price = product.pricelist_price
+            item = product._get_pricelist_item_by_pricelist(pricelist)
+            if item:
+                item.unlink()
