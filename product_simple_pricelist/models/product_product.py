@@ -14,7 +14,7 @@ class ProductProduct(models.Model):
     pricelist_price = fields.Float(
         string='Pricelist Price', compute='_compute_pricelist_price',
         digits=dp.get_precision('Pricelist Price'),
-        inverse='_set_pricelist_price')
+        inverse='_inverse_pricelist_price')
 
     pricelist_price_difference_rate = fields.Float(
         string='Pricelist Difference (%)', compute='_compute_pricelist_price',
@@ -42,7 +42,7 @@ class ProductProduct(models.Model):
                 product.pricelist_price_difference_rate = (
                     difference / product.lst_price) * 100
 
-    def _set_pricelist_price(self):
+    def _inverse_pricelist_price(self):
         ProductPricelistItem = self.env['product.pricelist.item']
         pricelist_id = self._context.get('pricelist_id', False)
         if not pricelist_id:
