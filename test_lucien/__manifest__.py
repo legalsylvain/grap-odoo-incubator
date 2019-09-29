@@ -14,10 +14,7 @@
         'hr_timesheet_sheet',
     ],
     'data': [
-        # 'views/templates.xml',
-        # 'views/view_account_journal.xml',
+        'views/view_divers.xml',
     ],
-    'images': [
-    ],
-    'installable': False,
+    'installable': True,
 }

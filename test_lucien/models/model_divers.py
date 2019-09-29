@@ -5,13 +5,7 @@
 from odoo import fields, models
 
 
-# class AccountJournal(models.Model):
-#     _inherit = 'account.journal'
-
-#     # Columns section
-#     pos_image = fields.Binary(string='PoS Image')
-
-class AccountAnalyticLine(models.Model)
+class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
     mon_vieux_champ = fields.Float()
