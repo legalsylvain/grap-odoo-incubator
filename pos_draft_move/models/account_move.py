@@ -10,14 +10,14 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
-    _inherit = 'account.move'
+    _inherit = "account.move"
 
     @api.multi
     def post(self):
         if self.env.context.get("pos_draft_move", False):
             _logger.warning(
-                "The close of the session %s will not post entries" % (
-                    ",".join(self.mapped("name")))
+                "The close of the session %s will not post entries"
+                % (",".join(self.mapped("name")))
             )
             return
         super(AccountMove, self).post()
