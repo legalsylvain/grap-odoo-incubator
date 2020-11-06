@@ -10,8 +10,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">pos.session</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
         <field name="arch" type="xml">
-            <field name="stop_at" position="after">
-                <field name="generate_draft_moves" groups="base.group_erp_manager"/>
+            <button name="action_pos_session_validate" position="after">
+                <button name="action_pos_session_validate_draft" type="object" string="Generate Draft Moves"
+                    confirm="Take care that you should then confirm manually draft moves that will be generated"
+                    groups="base.group_erp_manager"/>
             </field>
         </field>
     </record>
